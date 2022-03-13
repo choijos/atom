@@ -1,7 +1,7 @@
 const path = require('path');
-const Package = require('./package');
+const AbstractPackage = require('./abstract-package');
 
-module.exports = class ThemePackage extends Package {
+module.exports = class ThemePackage extends AbstractPackage {
   getType() {
     return 'theme';
   }
