@@ -23,6 +23,7 @@ module.exports = class ConfigFile {
     const created = new ConfigFile(path);
     this._known.set(path, created);
     return created;
+
   }
 
   constructor(path) {
@@ -31,7 +32,6 @@ module.exports = class ConfigFile {
     this.value = {};
     this.reloadCallbacks = [];
 
-    // Use a queue to prevent multiple concurrent write to the same file.
     const writeQueue = asyncQueue((data, callback) =>
       CSON.writeFile(this.path, data, error => {
         if (error) {
