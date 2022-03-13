@@ -1223,7 +1223,7 @@ module.exports = class TextEditor {
     return this.decorationManager.onDidUpdateDecorations(callback);
   }
 
-  // Retrieves the current buffer's URI.
+
   getURI() {
     return this.buffer.getUri();
   }
@@ -1252,7 +1252,7 @@ module.exports = class TextEditor {
     });
   }
 
-  // Controls visibility based on the given {Boolean}.
+
   setVisible(visible) {
     if (visible) {
       const languageMode = this.buffer.getLanguageMode();
@@ -1346,7 +1346,7 @@ module.exports = class TextEditor {
     this.updateEditorWidthInChars(editorWidthInChars, true);
   }
 
-  // Returns the editor width in characters.
+
   getEditorWidthInChars() {
     if (this.width != null && this.defaultCharWidth > 0) {
       return Math.max(0, Math.floor(this.width / this.defaultCharWidth));
@@ -1655,9 +1655,7 @@ module.exports = class TextEditor {
     return this.buffer.rangeForRow(row, options && options.includeNewline);
   }
 
-  // Get the text in the given {Range}.
-  //
-  // Returns a {String}.
+
   getTextInRange(range) {
     return this.buffer.getTextInRange(range);
   }

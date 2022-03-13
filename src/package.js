@@ -103,7 +103,7 @@ module.exports = class Package extends AbstractPackage {
 
 
   load() {
-    this.measure('loadTime', () => {
+    this.measureLoadTIme('loadTime', () => {
       try {
         ModuleCache.add(this.path, this.metadata);
 
@@ -132,7 +132,7 @@ module.exports = class Package extends AbstractPackage {
     if (!this.activationPromise) {
       this.activationPromise = new Promise((resolve, reject) => {
         this.resolveActivationPromise = resolve;
-        this.measure('activateTime', () => {
+        this.measureLoadTime('activateTime', () => {
           try {
             this.activateResources();
             if (this.activationShouldBeDeferred()) {

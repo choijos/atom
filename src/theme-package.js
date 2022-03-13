@@ -38,7 +38,7 @@ module.exports = class ThemePackage extends AbstractPackage {
       this.activationPromise = new Promise((resolve, reject) => {
         this.resolveActivationPromise = resolve;
         this.rejectActivationPromise = reject;
-        this.measure('activateTime', () => {
+        this.measureLoadTime('activateTime', () => {
           try {
             this.loadStylesheets();
             this.activateNow();

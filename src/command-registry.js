@@ -145,11 +145,6 @@ module.exports = class CommandRegistry {
       throw new Error('Cannot register a command with a null listener.');
     }
 
-    // type Listener = ((e: CustomEvent) => void) | {
-    //   displayName?: string,
-    //   description?: string,
-    //   didDispatch(e: CustomEvent): void,
-    // }
     if (
       typeof listener !== 'function' &&
       typeof listener.didDispatch !== 'function'
@@ -429,10 +424,6 @@ module.exports = class CommandRegistry {
   }
 };
 
-// type Listener = {
-//   descriptor: CommandDescriptor,
-//   extractDidDispatch: (e: CustomEvent) => void,
-// };
 class SelectorBasedListener {
   constructor(selector, commandName, listener) {
     this.selector = selector;
@@ -464,10 +455,6 @@ class InlineListener {
   }
 }
 
-// type CommandDescriptor = {
-//   name: string,
-//   displayName: string,
-// };
 function extractDescriptor(name, listener) {
   return Object.assign(_.omit(listener, 'didDispatch'), {
     name,

@@ -11,12 +11,6 @@ const ModuleCache = require('./module-cache');
 const BufferedProcess = require('./buffered-process');
 const { requireModule } = require('./module-utils');
 
-
-// const AbstractPackage = function() {
-//   if (this.constuctor === AbstractPackage) {
-//     throw new Error("Cannot instantiate AbstractPackage class directly");
-//   }
-
 module.exports = class AbstractPackage {
   constructor(params) {
     if (this.constructor === AbstractPackage) {
@@ -89,6 +83,7 @@ module.exports = class AbstractPackage {
 
   activate() {
     throw new Error('Method activate() needs to be implemented in derivative classes');
+
   };
 
   /*
@@ -113,7 +108,7 @@ module.exports = class AbstractPackage {
     return this.metadata && this.metadata.theme;
   }
 
-  measure(key, fn) {
+  measureLoadTime(key, fn) {
     const startTime = window.performance.now();
     const value = fn();
     this[key] = Math.round(window.performance.now() - startTime);
@@ -152,7 +147,7 @@ module.exports = class AbstractPackage {
 
   initializeIfNeeded() {
     if (this.mainInitialized) return;
-    this.measure('initializeTime', () => {
+    this.measureLoadTime('initializeTime', () => {
       try {
         // The main module's `initialize()` method is guaranteed to be called
         // before its `activate()`. This gives you a chance to handle the
@@ -1324,42 +1319,34 @@ module.exports = class AbstractPackage {
   }
 };
 
-// class SettingsFile {
-//   static load(path, callback) {
-//     CSON.readFile(path, (error, properties = {}) => {
-//       if (error) {
-//         callback(error);
-//       } else {
-//         callback(null, new SettingsFile(path, properties));
-//       }
-//     });
-//   }
+class SettingsFile {
+  static load(path, callback) {
+    CSON.readFile(path, (error, properties = {}) => {
+      if (error) {
+        callback(error);
+      } else {
+        callback(null, new SettingsFile(path, properties));
+      }
+    });
+  }
 
-//   constructor(path, properties) {
-//     this.path = path;
-//     this.properties = properties;
-//   }
+  constructor(path, properties) {
+    this.path = path;
+    this.properties = properties;
+  }
 
-//   activate(config) {
-//     for (let selector in this.properties) {
-//       config.set(null, this.properties[selector], {
-//         scopeSelector: selector,
-//         source: this.path
-//       });
-//     }
-//   }
+  activate(config) {
+    for (let selector in this.properties) {
+      config.set(null, this.properties[selector], {
+        scopeSelector: selector,
+        source: this.path
+      });
+    }
+  }
 
-//   deactivate(config) {
-//     for (let selector in this.properties) {
-//       config.unset(null, { scopeSelector: selector, source: this.path });
-//     }
-//   }
-// }
-
-
-
-
-
-
-
-
+  deactivate(config) {
+    for (let selector in this.properties) {
+      config.unset(null, { scopeSelector: selector, source: this.path });
+    }
+  }
+}
